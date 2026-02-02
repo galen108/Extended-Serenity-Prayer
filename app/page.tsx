@@ -3,10 +3,22 @@
 import React, { useState, useEffect } from 'react';
 import { Waves, Wind, Leaf, Sparkles } from 'lucide-react';
 
+interface Theme {
+    color: string;
+    bg: string;
+}
+
+interface Themes {
+    peace: Theme;
+    acceptance: Theme;
+    courage: Theme;
+    wisdom: Theme;
+}
+
 export default function ExtendedSerenityPrayer() {
-    const [activeView, setActiveView] = useState('full');
-    const [focusedLine, setFocusedLine] = useState(null);
-    const [breathingPhase, setBreathingPhase] = useState('inhale');
+    const [activeView, setActiveView] = useState<string>('full');
+    const [focusedLine, setFocusedLine] = useState<number | null>(null);
+    const [breathingPhase, setBreathingPhase] = useState<string>('inhale');
 
     useEffect(() => {
         const breathingCycle = setInterval(() => {
@@ -20,10 +32,10 @@ export default function ExtendedSerenityPrayer() {
     }, []);
 
     const prayerLines = [
-        { text: 'God, grant me the serenity', icon: Waves, theme: 'peace' },
-        { text: 'to accept the things I cannot change,', icon: Leaf, theme: 'acceptance' },
-        { text: 'courage to change the things I can,', icon: Sparkles, theme: 'courage' },
-        { text: 'and wisdom to know the difference.', icon: Wind, theme: 'wisdom' },
+        { text: 'God, grant me the serenity', icon: Waves, theme: 'peace' as keyof Themes },
+        { text: 'to accept the things I cannot change,', icon: Leaf, theme: 'acceptance' as keyof Themes },
+        { text: 'courage to change the things I can,', icon: Sparkles, theme: 'courage' as keyof Themes },
+        { text: 'and wisdom to know the difference.', icon: Wind, theme: 'wisdom' as keyof Themes },
     ];
 
     const extendedLines = [
@@ -38,45 +50,45 @@ export default function ExtendedSerenityPrayer() {
         'and supremely happy with Him forever in the next.'
     ];
 
-    const themes = {
+    const themes: Themes = {
         peace: { color: '#7ec8e3', bg: 'rgba(126, 200, 227, 0.08)' },
         acceptance: { color: '#88c999', bg: 'rgba(136, 201, 153, 0.08)' },
         courage: { color: '#f4a261', bg: 'rgba(244, 162, 97, 0.08)' },
         wisdom: { color: '#b491c8', bg: 'rgba(180, 145, 200, 0.08)' }
     };
 
-    const handleMouseEnterButton = (e, view) => {
+    const handleMouseEnterButton = (e: React.MouseEvent<HTMLButtonElement>, view: string) => {
         if (activeView !== view) {
             e.currentTarget.style.background = 'rgba(126, 200, 227, 0.1)';
             e.currentTarget.style.borderColor = 'rgba(126, 200, 227, 0.3)';
         }
     };
 
-    const handleMouseLeaveButton = (e, view) => {
+    const handleMouseLeaveButton = (e: React.MouseEvent<HTMLButtonElement>, view: string) => {
         if (activeView !== view) {
             e.currentTarget.style.background = 'rgba(255, 255, 255, 0.5)';
             e.currentTarget.style.borderColor = 'rgba(126, 200, 227, 0.15)';
         }
     };
 
-    const handleMouseEnterLine = (e, theme) => {
+    const handleMouseEnterLine = (e: React.MouseEvent<HTMLDivElement>, theme: Theme) => {
         e.currentTarget.style.transform = 'translateX(8px)';
         e.currentTarget.style.boxShadow = `0 8px 30px ${theme.color}20`;
     };
 
-    const handleMouseLeaveLine = (e) => {
+    const handleMouseLeaveLine = (e: React.MouseEvent<HTMLDivElement>) => {
         e.currentTarget.style.transform = 'translateX(0)';
         e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.04)';
     };
 
-    const handleMouseEnterReflect = (e, index) => {
+    const handleMouseEnterReflect = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
         if (focusedLine !== index) {
             e.currentTarget.style.borderColor = 'rgba(126, 200, 227, 0.3)';
             e.currentTarget.style.transform = 'translateY(-4px)';
         }
     };
 
-    const handleMouseLeaveReflect = (e, index) => {
+    const handleMouseLeaveReflect = (e: React.MouseEvent<HTMLDivElement>, index: number) => {
         if (focusedLine !== index) {
             e.currentTarget.style.borderColor = 'rgba(126, 200, 227, 0.15)';
             e.currentTarget.style.transform = 'translateY(0)';
